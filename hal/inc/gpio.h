@@ -1,5 +1,8 @@
 
 
+#include <stdint.h>
+
+
 /* GPIO register offsets */
 #define GPIO_MODER      0x00
 #define GPIO_OTYPER     0x04
@@ -67,7 +70,7 @@ typedef struct gpio_init_struct {
 
 /* Function prototypes */
 void gpio_init(uint32_t port, uint8_t pin, gpio_init_struct * init_struct);
-bool gpio_read(uint32_t port, uint8_t pin);
+uint8_t gpio_read(uint32_t port, uint8_t pin);
 void gpio_reset(uint32_t port, uint8_t pin);
 void gpio_set(uint32_t port, uint8_t pin);
 

@@ -1,5 +1,8 @@
 
 
+#include <stdint.h>
+
+
 /* RCC register offsets */
 #define RCC_BASE        0x40023800
 
@@ -58,7 +61,7 @@
 #define RCC_MCO2_SOURCE_SYSCLK  0x0
 #define RCC_MCO2_SOURCE_PLLI2S  0x1
 #define RCC_MCO2_SOURCE_HSE     0x2
-#define RCC_MCO2_SOURCE_PLLI2S  0x3
+#define RCC_MCO2_SOURCE_PLL     0x3
 
 #define RCC_I2S_CLK_PLLI2S      0x0
 #define RCC_I2S_CLK_EXTERNAL    0x1
@@ -102,38 +105,14 @@
 #define RCC_APB2_SPI5           0x14
 
 
-/* Constants */
-volatile uint32_t * clock_control_register = (uint32_t *) RCC_BASE + RCC_CR;
-volatile uint32_t * pll_configurartion_register = (uint32_t *) RCC_BASE + RCC_PLLCFGR;
-volatile uint32_t * clock_configuration_register = (uint32_t *) RCC_BASE + RCC_CFGR;
-volatile uint32_t * clock_interrupt_register = (uint32_t *) RCC_BASE + RCC_CIR;
-volatile uint32_t * ahb1_reset_register = (uint32_t *) RCC_BASE + RCC_AHB1RSTR;
-volatile uint32_t * ahb2_reset_register = (uint32_t *) RCC_BASE + RCC_AHB2RSTR
-volatile uint32_t * apb1_reset_register = (uint32_t *) RCC_BASE + RCC_APB1RSTR;
-volatile uint32_t * apb2_reset_register = (uint32_t *) RCC_BASE + RCC_APB2RSTR;
-volatile uint32_t * ahb1_enable_register = (uint32_t *) RCC_BASE + RCC_AHB1ENR;
-volatile uint32_t * ahb2_enable_register = (uint32_t *) RCC_BASE + RCC_AHB2ENR;
-volatile uint32_t * apb1_enable_register = (uint32_t *) RCC_BASE + RCC_APB1ENR;
-volatile uint32_t * apb2_enable_register = (uint32_t *) RCC_BASE + RCC_APB2ENR;
-volatile uint32_t * ahb1_lp_enable_register = (uint32_t *) RCC_BASE + RCC_AHB1LPENR;
-volatile uint32_t * ahb2_lp_enable_register = (uint32_t *) RCC_BASE + RCC_AHB2LPENR;
-volatile uint32_t * apb1_lp_enable_register = (uint32_t *) RCC_BASE + RCC_APB1LPENR;
-volatile uint32_t * apb2_lp_enable_register = (uint32_t *) RCC_BASE + RCC_APB2LPENR;
-volatile uint32_t * backup_domain_conmtrol_register = (uint32_t *) RCC_BASE + RCC_BDCR;
-volatile uint32_t * clock_control_status_register = (uint32_t *) RCC_BASE + RCC_CSR;
-volatile uint32_t * ss_clock_generation_register = (uint32_t *) RCC_BASE + RCC_SSCGR;
-volatile uint32_t * i2s_pll_configuraiton_register = (uint32_t *) RCC_BASE + RCC_PLLI2SCFGR;
-volatile uint32_t * dedicated_clocks_configuration_register = (uint32_t *) RCC_BASE + RCC_DCKCFGR;
-
-
 /* Typedefs */
-typedef struct rcc_pll_init_struct {
+typedef struct rcc_main_pll_init_struct {
     uint8_t pll_m;
     uint16_t pll_n;
     uint8_t pll_p;
-    bool pll_source;
+    uint8_t pll_source;
     uint8_t pll_q;
-}rcc_pll_init_struct;
+}rcc_main_pll_init_struct;
 
 typedef struct rcc_clock_init_struct {
     uint8_t system_clock;
@@ -146,7 +125,7 @@ typedef struct rcc_clock_init_struct {
     uint8_t clock_output_2;
     uint8_t mco1_prescaler;
     uint8_t mco2_prescaler;
-}
+}rcc_clock_init_struct;
 
 typedef struct rcc_i2s_pll_init_struct {
     uint8_t i2s_pll_m;
@@ -157,10 +136,22 @@ typedef struct rcc_i2s_pll_init_struct {
 
 /* Function prototypes */
 void rcc_clock_init(rcc_clock_init_struct * clock_init_struct);
-void rcc_pll_init(rcc_pll_init_struct * pll_init_struct);
+void rcc_main_pll_init(rcc_main_pll_init_struct * main_pll_init_struct);
+void rcc_i2s_pll_init(rcc_i2s_pll_init_struct * i2s_pll_init_struct);
 
-void rcc_enable_pll();
-void rcc_disable_pll();
+void rcc_enable_main_pll();
+void rcc_disable_main_pll();
+void rcc_enable_i2s_pll();
+void rcc_disable_i2s_pll();
+void rcc_enable_hse();
+void rcc_disable_hse();
+void rcc_enable_hsi();
+void rcc_disable_hsi();
+
+uint8_t rcc_main_pll_ready();
+uint8_t rcc_i2s_pll_ready();
+uint8_t rcc_hse_ready();
+uint8_t rcc_hsi_ready();
 
 void rcc_ahb1_enable(uint8_t ahb1_peripheral);
 void rcc_ahb2_enable(uint8_t ahb2_peripheral);

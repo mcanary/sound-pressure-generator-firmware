@@ -5,10 +5,10 @@
 
 void gpio_init(uint32_t port, uint8_t pin, gpio_init_struct * init_struct) {
 
-    volatile uint32_t * mode_register = (uint32_t *) port + GPIO_MODER;
-    volatile uint32_t * otype_register = (uint32_t *) port + GPIO_OTYPER;
-    volatile uint32_t * ospeed_register = (uint32_t *) port + GPIO_OSPEEDR;
-    volatile uint32_t * pupd_register = (uint32_t *) port + GPIO_PUPDR;
+    volatile uint32_t * mode_register = (uint32_t *) (port + GPIO_MODER);
+    volatile uint32_t * otype_register = (uint32_t *) (port + GPIO_OTYPER);
+    volatile uint32_t * ospeed_register = (uint32_t *) (port + GPIO_OSPEEDR);
+    volatile uint32_t * pupd_register = (uint32_t *) (port + GPIO_PUPDR);
 
     uint32_t mode = * mode_register & ~(0x3 << (2 * pin));
     uint32_t otype = * otype_register & ~(0x1 << pin);
@@ -27,25 +27,24 @@ void gpio_init(uint32_t port, uint8_t pin, gpio_init_struct * init_struct) {
 
 }
 
-bool gpio_read(uint32_t port, uint8_t pin) {
+uint8_t gpio_read(uint32_t port, uint8_t pin) {
 
-    volatile uint32_t * id_register = (uint32_t *) port + GPIO_IDR;
-    return (* id_register & (0x1 << pin)) >> pin;
+    volatile uint32_t * id_register = (uint32_t *) (port + GPIO_IDR);
+    return ((* id_register & (0x1 << pin)) >> pin);
     
 }
 
 void gpio_reset(uint32_t port, uint8_t pin) {
 
-    volatile uint32_t * od_register = (uint32_t *) port + GPIO_ODR;
+    volatile uint32_t * od_register = (uint32_t *) (port + GPIO_ODR);
     * od_register = * od_register & ~(0x1 << pin);
 
 }
 
 void gpio_set(uint32_t port, uint8_t pin) {
 
-    volatile uint32_t * od_register = (uint32_t *) port + GPIO_ODR;
+    volatile uint32_t * od_register = (uint32_t *) (port + GPIO_ODR);
     * od_register = * od_register | (0x1 << pin);
 
 }
-
 
