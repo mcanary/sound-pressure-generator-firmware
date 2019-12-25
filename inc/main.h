@@ -1,10 +1,21 @@
 
 
+#ifndef MAIN_H
+#define MAIN_H
+
+
+// Includes
 #include <stdint.h>
+#include <stdbool.h>
 
-#include "flash.h"
+#include "system_init.h"
+
 #include "gpio.h"
-#include "rcc.h"
 
+
+// Function Protoypes
 int main();
+
+
+#endif
 

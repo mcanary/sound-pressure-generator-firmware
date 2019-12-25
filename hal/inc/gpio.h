@@ -1,5 +1,9 @@
 
 
+#ifndef GPIO_H
+#define GPIO_H
+
+
 #include <stdint.h>
 
 
@@ -73,4 +77,7 @@ void gpio_init(uint32_t port, uint8_t pin, gpio_init_struct * init_struct);
 uint8_t gpio_read(uint32_t port, uint8_t pin);
 void gpio_reset(uint32_t port, uint8_t pin);
 void gpio_set(uint32_t port, uint8_t pin);
+
+
+#endif
 

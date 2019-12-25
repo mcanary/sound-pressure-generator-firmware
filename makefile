@@ -37,13 +37,14 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 src/main.c \
+src/system_init.c \
 hal/src/gpio.c \
 hal/src/rcc.c \
 hal/src/flash.c
 
 # ASM sources
 ASM_SOURCES =  \
-startup_stm32f411xe.s
+startup_stm32.s
 
 
 #######################################

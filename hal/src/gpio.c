@@ -27,6 +27,7 @@ void gpio_init(uint32_t port, uint8_t pin, gpio_init_struct * init_struct) {
 
 }
 
+
 uint8_t gpio_read(uint32_t port, uint8_t pin) {
 
     volatile uint32_t * id_register = (uint32_t *) (port + GPIO_IDR);
@@ -34,12 +35,14 @@ uint8_t gpio_read(uint32_t port, uint8_t pin) {
     
 }
 
+
 void gpio_reset(uint32_t port, uint8_t pin) {
 
     volatile uint32_t * od_register = (uint32_t *) (port + GPIO_ODR);
     * od_register = * od_register & ~(0x1 << pin);
 
 }
+
 
 void gpio_set(uint32_t port, uint8_t pin) {
 
